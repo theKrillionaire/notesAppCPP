@@ -1,10 +1,22 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <vector>
+#include <sstream>
 
-void makeNote() {
-
-
+void makeNote(std::string name, std::string contents) {
+  std::ofstream writeFile(name);
+  writeFile << contents;
+  writeFile.close();
+  std::ifstream readFile(name);
+  if (readFile.is_open()) {
+    std::string line;
+    while(std::getline(readFile,line)) {
+      std::cout << line;
+    }
+    readFile.close();
+  }
+  
 }
 
 
@@ -28,17 +40,19 @@ int main(int argc, char **argv) {
     std::getline(std::cin,input);
     if (input == "quit") { running = 0; handled = 1; }
     if (!handled) {
-      std::ofstream writeFile("note");
-      writeFile << input;
-      writeFile.close();
-      std::ifstream readFile("note");
-      if (readFile.is_open()) {
-        std::string line;
-        while(std::getline(readFile,line)) {
-          std::cout << line;
-        }
+      std::stringstream ss(input);
+      std::string arg;
+      std::vector<std::string> args;
+      while (ss >> arg) {
+        args.push_back(arg);
       }
-      readFile.close();
+      int i = 1;
+      std::string cont;
+      while (i < args.size()) {
+        cont += args[i] + " ";
+        i++;
+      }
+      makeNote(args[0], cont);
     }
     //if (!handled) std::cout << input << std::endl;
 
