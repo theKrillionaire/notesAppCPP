@@ -21,7 +21,10 @@ std::string readNote(std::string name) {
   }
   else return "error! could not open " + name;
 }
-
+void showNotes() {
+  for (auto& p : std::filesystem::directory_iterator(notesPath))
+    std::cout << p.path().filename().string() << "\n";
+}
 
 
 int running = 1;
@@ -56,10 +59,10 @@ int main(int argc, char **argv) {
       makeNote(args[1], cont);
     }
     else if (args[0] == "read") std::cout << readNote(args[1]) << std::endl;
+    else if (args[0] == "show") showNotes();
     else {
       std::cout << "no command!" << std::endl;
-        for (auto& p : std::filesystem::directory_iterator(notesPath))
-        std::cout << p.path().filename().string() << "\n";
+      showNotes();
     }
   }
   return 0;
