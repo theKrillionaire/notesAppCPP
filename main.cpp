@@ -27,7 +27,20 @@ int main(int argc, char **argv) {
     std::cout << "> ";
     std::getline(std::cin,input);
     if (input == "quit") { running = 0; handled = 1; }
-    if (!handled) std::cout << input << std::endl;
+    if (!handled) {
+      std::ofstream writeFile("note");
+      writeFile << input;
+      writeFile.close();
+      std::ifstream readFile("note");
+      if (readFile.is_open()) {
+        std::string line;
+        while(std::getline(readFile,line)) {
+          std::cout << line;
+        }
+      }
+      readFile.close();
+    }
+    //if (!handled) std::cout << input << std::endl;
 
   }
   return 0;
