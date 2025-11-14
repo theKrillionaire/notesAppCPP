@@ -1,6 +1,5 @@
 #include <iostream>
 #include <string>
-#include <cstring>
 #include <fstream>
 
 void makeNote() {
@@ -11,11 +10,13 @@ void makeNote() {
 
 
 int running = 1;
-int main(int argc, char *argv[]) {
+int main(int argc, char **argv) {
   int i = 0;
+  std::string args[argc];
   if(argc >= 1) {
     while(i < argc) {
-      if (strcmp(argv[i], "-t") == 0) std::cout << "test" << std::endl;
+      args[i] = argv[i];
+      if (args[i] == "-t") std::cout << "test" << std::endl;
       i++;
     }
   }
